@@ -13,17 +13,22 @@ use App\Events\WebsocketDemoEvent;
 |
 */
 
-Route::get('/', function () {
-    broadcast(new WebsocketDemoEvent('some data'));
+// Route::get('/', function () {
+//     broadcast(new WebsocketDemoEvent('some data'));
+//     return view('welcome');
+// });
 
-    return view('welcome');
-});
-
-Route::get('/chats', 'ChatsController@index');
-
-Route::get('/messages', 'ChatsController@fetchMessages');
-Route::post('/messages', 'ChatsController@sendMessage');
+// Route::get('/', function () {
+//     broadcast(new WebsocketDemoEvent('some data'));
+//     return view('welcome');
+// });
+Route::get('/', 'ChatsController@index');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+/** Chats Routes */
+Route::get('/chats', 'ChatsController@index');
+Route::get('/messages', 'ChatsController@fetchMessages');
+Route::post('/messages', 'ChatsController@sendMessage');

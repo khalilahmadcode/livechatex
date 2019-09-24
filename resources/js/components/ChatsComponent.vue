@@ -1,6 +1,7 @@
 <template>
    <div class="row">
 
+       <!-- Messaging panel -->
        <div class="col-8">
            <div class="card card-default">
                <div class="card-header">Messages</div>
@@ -13,6 +14,7 @@
                    </ul>
                </div>
 
+                <!-- message input field -->
                <input
                     @keydown="sendTypingEvent"
                     @keyup.enter="sendMessage"
@@ -20,17 +22,21 @@
                     type="text"
                     name="message"
                     placeholder="Enter your message..."
-                    class="form-control">
+                    class="form-control"
+                >
            </div>
+
+           <!-- typing status -->
             <span class="text-muted" v-if="activeUser" >{{ activeUser.name }} is typing...</span>
        </div>
 
+        <!-- List active uers -->
         <div class="col-4">
             <div class="card card-default">
                 <div class="card-header">Active Users</div>
                 <div class="card-body">
-                    <ul>
-                        <li class="py-2" v-for="(user, index) in users" :key="index">
+                    <ul class="list-group">
+                        <li class="list-group-item py-2" v-for="(user, index) in users" :key="index">
                             {{ user.name }}
                         </li>
                     </ul>
@@ -44,6 +50,7 @@
 <script>
     export default {
 
+        // properties passed from chats.blade
         props:['user'],
 
         data() {
@@ -56,9 +63,11 @@
             }
         },
 
+        // When components created
         created() {
             this.fetchMessages();
 
+            // Laravel Echo for user typing status
             Echo.join('chat')
                 .here(user => {
                     this.users = user;
@@ -83,28 +92,28 @@
                        this.activeUser = false;
                    }, 2000);
                 })
-
         },
 
         methods: {
+
+            // Fetch message from DB
             fetchMessages() {
                 axios.get('messages').then(response => {
                     this.messages = response.data;
                 })
             },
 
+            // Send message from DB
             sendMessage() {
-
                 this.messages.push({
                     user: this.user,
                     message: this.newMessage
                 });
-
                 axios.post('messages', {message: this.newMessage});
-
                 this.newMessage = '';
             },
 
+            // User typing status
             sendTypingEvent() {
                 Echo.join('chat')
                     .whisper('typing', this.user);
