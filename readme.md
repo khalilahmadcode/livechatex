@@ -5,8 +5,8 @@
 1. Clone this repository
 2. `npm install`
 2. `composer install`
-3. `php artisan key:generate`
-4. `cp .env.example .env` and configure the database in .env file.
+3. `cp .env.example .env` and configure the database in .env file.
+4. `php artisan key:generate`
 5. Run migration `php artisan migrate`
 6. Final step run websockets server.
 `php artisan websockets:serve`,
