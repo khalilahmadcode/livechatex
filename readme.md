@@ -10,4 +10,4 @@
 5. Run migration `php artisan migrate`
 6. Final step run websockets server.
 `php artisan websockets:serve`,
-7. Open the App in your browswer
+7. Run `php artisan serve` and open the App in your browswer
